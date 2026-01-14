@@ -2,10 +2,10 @@
 1. load `gdos_pomniki_przyrody_punktowe-minified.geojson` into JOSM
 2. select natural monuments on an area you're interested with, invert selection and remove everything else
 3. confirm the location is good enough as CRFOP accuracy of geolocalized features may vary
-4. confirm that your natural monument is not mapped already and if it is, update its features
-5. remove `podtyp=*` tag or rename it
+4. confirm that your natural monument is not mapped already and if it is, update its properties
+5. remove `podtyp=*` property or rename it
 
-## features:
+## properties of a feature:
 ```
 crfop:inscription_date=2004-12-26                / adoption date of this natural monument
 denotation=natural_monument
@@ -23,7 +23,7 @@ species:pl=Dąb szypułkowy
 species:wikidata=Q165145
 species:wikipedia=pl:Dąb szypułkowy
 ```
-## good to add features:
+## good to add properties:
 ```
 height=23.6               / in meters, usually listed on CRFOP
 circumference=2.92        / in meters, also usually listed on CRFOP
