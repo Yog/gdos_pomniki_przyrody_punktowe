@@ -123,3 +123,11 @@ Aesculus     › Q158752 › pl:Kasztanowiec
 Salix        › Q36050 › pl:Wierzba
 Ulmus        › Q131113 › pl:Wiąz
 ```
+
+## Minified JOSM .geojson with python:
+```python
+$ python -c "import sys
+w=sys.stdout.buffer.write
+for line in sys.stdin.buffer:
+    w(line.lstrip().rstrip(b'\r\n'))" < gdos_pomniki_przyrody_punktowe-JOSMgenerated.geojson > gdos_pomniki_przyrody_punktowe-minified.geojson
+```
