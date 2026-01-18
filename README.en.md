@@ -1,53 +1,49 @@
-- 🇬🇧 [English instructions](README.en.md)
-
-# Jak używać:
-1. wczytaj `gdos_pomniki_przyrody_punktowe-minified.geojson` do JOSM
-2. zaznacz pomniki przyrody na obszarze, który Cię interesuje, odwróć zaznaczenie i usuń wszystko pozostałe
-3. sprawdź, czy dany pomnik przyrody nie jest już zmapowany, a jeśli jest — zaktualizuj jego właściwości
-4. upewnij się, że lokalizacja jest wystarczająco dobra, ponieważ dokładność geolokalizacji obiektów w CRFOP może być wątpliwa  
-   * ~88 obiektów ma przypisane 2 lub więcej gatunków, ponieważ ich lokalizacja była taka sama, choć w rzeczywistości jest różna — może to zostać poprawione przy użyciu dobrej fotomapy lub w terenie
-5. usuń właściwość `podtyp=*` lub zmień jej nazwę
-6. występują również inne obiekty chronione z właściwością `obiekt=*`, które nie są drzewami. Można je mapować, ale **przed wysłaniem dokładnie sprawdź wszystkie tagi**:
-   * `głaz narzutowy` — głaz narzutowy
-   * `jaskinia` — wejście do jaskini
-   * `skałka` — formacja skalna / skałka
-   * `wodospad` — wodospad
-   * `źródło` — źródło
-   * `inne` — zazwyczaj chronione pnącze, ale może to być cokolwiek innego z powyższych
-
-## właściwości obiektu:
+# How to use:
+1. load `gdos_pomniki_przyrody_punktowe-minified.geojson` into JOSM
+2. select natural monuments on an area you're interested with, invert selection and remove everything else
+3. confirm that your natural monument is not mapped already and if it is, update its properties
+4. confirm the location is good enough as CRFOP accuracy of geolocalized features may vary
+   * ~88 of features have got 2 or more species because their location was the same but in reality it is different and might be fixed with good fotomap or survey
+5. remove `podtyp=*` property or rename it
+6. there are also other protected objects with `obiekt=*` property that are not trees. Map'em, but review all tags before you upload:
+   * `głaz narzutowy` Glacial erratic
+   * `jaskinia` entrance to a cave
+   * `skałka` rock formation / crag
+   * `wodospad` waterfall
+   * `źródło` spring
+   * `inne` usually a protected vines plant, but can be anything else/above
+  
+## properties of a feature:
 ```
-crfop:inscription_date=2004-12-26                / data ustanowienia pomnika przyrody
+crfop:inscription_date=2004-12-26                / adoption date of this natural monument
 denotation=natural_monument
 genus=Quercus
 leaf_cycle=deciduous
 leaf_type=broadleaved
 natural=tree
 protected=yes
-ref:CRFOP=114952                                 / ID grupy pomników
-ref:gid=159172                                   / ID konkretnego pomnika
-ref:inspire=PL.ZIPOP.1393.PP.1061011.5064        / identyfikator obiektu ZIPOP
+ref:CRFOP=114952                                 / ID of monuments group
+ref:gid=159172                                   / ID of this specific monument
+ref:inspire=PL.ZIPOP.1393.PP.1061011.5064        / ZIPOP object identifier
 website=https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1061011.5064
 species=Quercus robur
 species:pl=Dąb szypułkowy
 species:wikidata=Q165145
 species:wikipedia=pl:Dąb szypułkowy
 ```
-
-## warto dodać właściwości:
+## good to add properties:
 ```
-height=23.6
-circumference=2.92
-diameter=920
-diameter_crown=16.2
-description=
-start_date=1888
+height=23.6               / in meters, usually listed on CRFOP
+circumference=2.92        / in meters, also usually listed on CRFOP
+diameter=920              / that's in millimeters
+diameter_crown=16.2       / in meters
+description=              / description can be sometimes found on CRFOP
+start_date=1888           / date when the tree was planted, usually approximate
 ```
 
-Używaj pliku `gdos_pomniki_przyrody_punktowe-init-ref.geojson` **wyłącznie** do kontroli ewentualnych uszkodzeń danych — zawiera on wiele obiektów w oryginalnym (niezminifikowanym) formacie.
+Use `gdos_pomniki_przyrody_punktowe-init-ref.geojson` only to control possible data corruption as it has many features in its original format that is not minified. 
 
-## Q-kody `species:wikidata` i lista `species:wikipedia`:
-
+## `species:wikidata` codes and `species:wikipedia` list:
 ```
 Ailanthus altissima         › Q159570 › pl:Bożodrzew gruczołkowaty
 Betula pendula              › Q156895 › pl:Brzoza brodawkowata
@@ -116,7 +112,7 @@ Prunus avium                › Q165137 › pl:Wiśnia ptasia
 Thuja plicata               › Q147417 › pl:Żywotnik olbrzymi
 Thuja occidentalis          › Q147468 › pl:Żywotnik zachodni
 ```
-Najczęściej spotykane gatunki bez określonej odmiany *(sp.)*
+Most common *sp.* species
 ```
 Tilia        › Q127849 › pl:Lipa
 Fagus        › Q25403 › pl:Buk
@@ -128,7 +124,7 @@ Salix        › Q36050 › pl:Wierzba
 Ulmus        › Q131113 › pl:Wiąz
 ```
 
-## Minifikacja pliku .geojson z JOSM poleceniem Pythona:
+## Minified JOSM .geojson with python:
 ```python
 $ python -c "import sys
 w=sys.stdout.buffer.write
