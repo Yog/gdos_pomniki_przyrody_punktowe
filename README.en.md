@@ -18,21 +18,22 @@
   
 ## properties of a feature:
 ```
-crfop:inscription_date=2004-12-26                / adoption date of this natural monument
+crfop:inscription_date=1994-06-01                   / data ustanowienia pomnika przyrody
 denotation=natural_monument
-genus=Quercus
+genus=Tilia
 leaf_cycle=deciduous
 leaf_type=broadleaved
+name=Dagmara
 natural=tree
 protected=yes
-ref:CRFOP=114952                                 / ID of monuments group
-ref:gid=159172                                   / ID of this specific monument
-ref:inspire=PL.ZIPOP.1393.PP.1061011.5064        / ZIPOP object identifier
-website=https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.1061011.5064
-species=Quercus robur
-species:pl=Dąb szypułkowy
-species:wikidata=Q165145
-species:wikipedia=pl:Dąb szypułkowy
+ref:CRFOP=75950                                   / ID of monuments group
+ref:gid=30484                                     / ID of this specific monument
+ref:inspire=PL.ZIPOP.1393.PP.0201011.70           / ZIPOP object identifier
+website=https://crfop.gdos.gov.pl/CRFOP/widok/viewpomnikprzyrody.jsf?fop=PL.ZIPOP.1393.PP.0201011.70
+species=Tilia platyphyllos
+species:pl=Lipa szerokolistna
+species:wikidata=Q156831
+species:wikipedia=pl:Lipa szerokolistna
 ```
 ## good to add properties:
 ```
