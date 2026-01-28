@@ -6,8 +6,11 @@
 3. sprawdź, czy dany pomnik przyrody nie jest już zmapowany, a jeśli jest — zaktualizuj jego właściwości
 4. upewnij się, że lokalizacja jest wystarczająco dobra, ponieważ dokładność geolokalizacji obiektów w CRFOP może być wątpliwa  
    * ~88 obiektów ma przypisane 2 lub więcej gatunków, ponieważ ich lokalizacja była taka sama, choć w rzeczywistości jest różna — może to zostać poprawione przy użyciu dobrej fotomapy lub w terenie
-5. usuń właściwość `podtyp=*` lub zmień jej nazwę
-6. występują również inne obiekty chronione z właściwością `obiekt=*`, które nie są drzewami. Można je mapować, ale **przed wysłaniem dokładnie sprawdź wszystkie tagi**:
+5. wartość `name` powinna być spójna z [wytycznymi OSM](https://wiki.openstreetmap.org/wiki/Names#Proper_name_spelling) czyli pisana tylko z wielkiej litery
+   * obiekty w jednym zbiorze mają często wszystkie nazwy tych obiektów połączone w jeden ciąg. W takim przypadku nazwy spodziewać się można w tej samej kolejności co identyfikatory `ref:gid=` i w tym porządku `name` można prawidłowo indywidualnie przypisać. 
+6. usuń właściwość `podtyp=*` lub zmień jej nazwę
+7. `powierzch=*` określa powierzchnię jaką zajmuje chroniony obiekt, wtedy warto mapować jako obszar o podanej wielkości
+8. występują również inne obiekty chronione z właściwością `obiekt=*`, które nie koniecznie są drzewami. Można je mapować, ale **przed wysłaniem dokładnie sprawdź wszystkie tagi**:
    * `głaz narzutowy` — głaz narzutowy
    * `jaskinia` — wejście do jaskini
    * `skałka` — formacja skalna / skałka
@@ -36,12 +39,12 @@ species:wikipedia=pl:Dąb szypułkowy
 
 ## warto dodać właściwości:
 ```
-height=23.6
-circumference=2.92
-diameter=920
-diameter_crown=16.2
-description=
-start_date=1888
+height=23.6               / w metrach, zwykle prezentowane w CRFOP
+circumference=2.92        / w metrach, też zwykle prezentowane w CRFOP
+diameter=920              / średnica w milimeterach !!
+diameter_crown=16.2       / w metrach
+description=              / description can be sometimes found on CRFOP
+start_date=1888           / date when the tree was planted, usually approximate
 ```
 
 Używaj pliku `gdos_pomniki_przyrody_punktowe-init-ref.geojson` **wyłącznie** do kontroli ewentualnych uszkodzeń danych — zawiera on wiele obiektów w oryginalnym (niezminifikowanym) formacie.
@@ -119,18 +122,40 @@ Thuja occidentalis          › Q147468 › pl:Żywotnik zachodni
 Najczęściej spotykane gatunki bez określonej odmiany *(sp.)*
 ```
 Tilia        › Q127849 › pl:Lipa
-Fagus        › Q25403 › pl:Buk
-Quercus      › Q12004 › pl:Dąb
-Acer         › Q42292 › pl:Klon
-Populus      › Q25356 › pl:Topola
+Fagus        › Q25403  › pl:Buk
+Quercus      › Q12004  › pl:Dąb
+Acer         › Q42292  › pl:Klon
+Populus      › Q25356  › pl:Topola
 Aesculus     › Q158752 › pl:Kasztanowiec
-Salix        › Q36050 › pl:Wierzba
+Salix        › Q36050  › pl:Wierzba
 Ulmus        › Q131113 › pl:Wiąz
+```
+
+## Właściwości `obiekt=głaz narzutowy`
+```
+natural=stone
+geological=glacial_erratic
+denotation=natural_monument
+protected=yes
+```
+
+## Właściwości `obiekt=źródło`
+```
+natural=spring
+denotation=natural_monument
+protected=yes
+```
+
+## Właściwości `obiekt=jaskinia`
+```
+natural=cave_entrance
+denotation=natural_monument
+protected=yes
 ```
 
 ## Minifikacja pliku .geojson z JOSM poleceniem Pythona:
 ```python
-$ python -c "import sys
+python -c "import sys
 w=sys.stdout.buffer.write
 for line in sys.stdin.buffer:
     w(line.lstrip().rstrip(b'\r\n'))" < gdos_pomniki_przyrody_punktowe-JOSMgenerated.geojson > gdos_pomniki_przyrody_punktowe-minified.geojson

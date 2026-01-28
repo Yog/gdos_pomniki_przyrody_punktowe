@@ -4,8 +4,11 @@
 3. confirm that your natural monument is not mapped already and if it is, update its properties
 4. confirm the location is good enough as CRFOP accuracy of geolocalized features may vary
    * ~88 of features have got 2 or more species because their location was the same but in reality it is different and might be fixed with good fotomap or survey
-5. remove `podtyp=*` property or rename it
-6. there are also other protected objects with `obiekt=*` property that are not trees. Map'em, but review all tags before you upload:
+5. the `name` value should be consistent with the [OSM guidelines](https://wiki.openstreetmap.org/wiki/Names#Proper_name_spelling), meaning it should be capitalized but not be all caps
+   * objects in one set often have all the names of these objects combined into one string. In such a case, names can be expected in the same order as the `ref:gid=` identifiers, so in that same order names can be properly assigned individually
+6. remove `podtyp=*` property or rename it
+7. `powierzch=*` specifies the area occupied by the protected object; in that case, it is worth mapping as an area with the given size
+8. there are also other protected objects with `obiekt=*` property that are not trees. Map'em, but review all tags before you upload:
    * `głaz narzutowy` Glacial erratic
    * `jaskinia` entrance to a cave
    * `skałka` rock formation / crag
@@ -115,18 +118,40 @@ Thuja occidentalis          › Q147468 › pl:Żywotnik zachodni
 Most common *sp.* species
 ```
 Tilia        › Q127849 › pl:Lipa
-Fagus        › Q25403 › pl:Buk
-Quercus      › Q12004 › pl:Dąb
-Acer         › Q42292 › pl:Klon
-Populus      › Q25356 › pl:Topola
+Fagus        › Q25403  › pl:Buk
+Quercus      › Q12004  › pl:Dąb
+Acer         › Q42292  › pl:Klon
+Populus      › Q25356  › pl:Topola
 Aesculus     › Q158752 › pl:Kasztanowiec
-Salix        › Q36050 › pl:Wierzba
+Salix        › Q36050  › pl:Wierzba
 Ulmus        › Q131113 › pl:Wiąz
+```
+
+## properties of `obiekt=głaz narzutowy`
+```
+natural=stone
+geological=glacial_erratic
+denotation=natural_monument
+protected=yes
+```
+
+## properties of `obiekt=źródło`
+```
+natural=spring
+denotation=natural_monument
+protected=yes
+```
+
+## properties of `obiekt=jaskinia`
+```
+natural=cave_entrance
+denotation=natural_monument
+protected=yes
 ```
 
 ## Minified JOSM .geojson with python:
 ```python
-$ python -c "import sys
+python -c "import sys
 w=sys.stdout.buffer.write
 for line in sys.stdin.buffer:
     w(line.lstrip().rstrip(b'\r\n'))" < gdos_pomniki_przyrody_punktowe-JOSMgenerated.geojson > gdos_pomniki_przyrody_punktowe-minified.geojson
