@@ -4,11 +4,21 @@
 1. wczytaj `gdos_pomniki_przyrody_punktowe-minified.geojson` do JOSM
 2. zaznacz pomniki przyrody na obszarze, który Cię interesuje, odwróć zaznaczenie i usuń wszystko pozostałe
 3. sprawdź, czy dany pomnik przyrody nie jest już zmapowany, a jeśli jest — zaktualizuj jego właściwości
+    * zastosuj kwerendę Overpass API
+    ```overpassql
+    [out:json][timeout:250];
+    (
+      node
+        ["denotation"="natural_monument"]
+        ({{bbox}});
+    );
+    out body;
+    ```
 4. upewnij się, że lokalizacja jest wystarczająco dobra, ponieważ dokładność geolokalizacji obiektów w CRFOP może być wątpliwa  
    * ~88 obiektów ma przypisane 2 lub więcej gatunków, ponieważ ich lokalizacja była taka sama, choć w rzeczywistości jest różna — może to zostać poprawione przy użyciu dobrej fotomapy lub w terenie
 5. wartość `name` powinna być spójna z [wytycznymi OSM](https://wiki.openstreetmap.org/wiki/Names#Proper_name_spelling) czyli pisana tylko z wielkiej litery
    * obiekty w jednym zbiorze mają często wszystkie nazwy tych obiektów połączone w jeden ciąg. W takim przypadku nazwy spodziewać się można w tej samej kolejności co identyfikatory `ref:gid=` i w tym porządku `name` można prawidłowo indywidualnie przypisać. 
-6. usuń właściwość `podtyp=*` lub zmień jej nazwę
+6. usuń właściwość `podtyp=*`, `powierzch=*` oraz `obiekt=*` lub zastąp właściwym tagiem
 7. `powierzch=*` określa powierzchnię jaką zajmuje chroniony obiekt, wtedy warto mapować jako obszar o podanej wielkości
 8. występują również inne obiekty chronione z właściwością `obiekt=*`, które nie koniecznie są drzewami. Można je mapować, ale **przed wysłaniem dokładnie sprawdź wszystkie tagi**:
    * `głaz narzutowy` — głaz narzutowy
@@ -38,7 +48,7 @@ species:wikidata=Q156831
 species:wikipedia=pl:Lipa szerokolistna
 ```
 
-## warto dodać właściwości:
+## warte dodania właściwości:
 ```
 height=23.6               / w metrach, zwykle prezentowane w CRFOP
 circumference=2.92        / w metrach, też zwykle prezentowane w CRFOP
@@ -48,7 +58,17 @@ description=              / description can be sometimes found on CRFOP
 start_date=1888           / date when the tree was planted, usually approximate
 ```
 
-Używaj pliku `gdos_pomniki_przyrody_punktowe-init-ref.geojson` **wyłącznie** do kontroli ewentualnych uszkodzeń danych — zawiera on wiele obiektów w oryginalnym (niezminifikowanym) formacie.
+## Rozwiązywanie problemów
+* Baza jest aktualna z CRFOP do stycznia 2026r i w związku z tym powstał szereg `note`
+  1. `note:fopid` ostrzega, że cała grupa obiektów może nie być już pomnikami przyrody gdyż pierwotne *fopid* nie jest w zbioże nowych pomników, ale mogło być nadane nowe
+  2. `note:gid` ma podobną logikę, jednak zawsze dotyczy tylko unikalnego obiektu. Ten równiez mógł mieć nadany nowy identyfikator i w takim wypadku twór zachowuje swój status pomnikowy
+     * jeśli drzewo nie jest *pomnikiem przyrody* to pomimo tego może dalej rosnąć, a jego pierwotny wpis pozostaje w CRFOP. 
+     * `protected=yes` pozostaje gdyż takie drzewo dalej może pozostawać pod względną ochroną ze względu na wystarczającą średnicę pnia
+  3. `note:location` wskazówka iż lokalizacja może być rozbieżna z CRFOP, jednakże najwazniejsza jest rzeczywista lokalizacja, którą szczególnie warto zweryfikować
+  4. `note:update` informacja o aktualizacji
+* wszystkie `note` warto skasować przed zapisem na OSM lub zmienić opis by ułatwić przyszła weryfikację. 
+
+Stosuj pliki w [/archive/](/archive) `gdos_pomniki_przyrody_punktowe-init-ref.geojson` **wyłącznie** do kontroli ewentualnych uszkodzeń danych — zawiera on wiele obiektów w oryginalnym (niezminifikowanym) formacie.
 
 ## Q-kody `species:wikidata` i lista `species:wikipedia`:
 
@@ -57,16 +77,30 @@ Ailanthus altissima         › Q159570 › pl:Bożodrzew gruczołkowaty
 Betula pendula              › Q156895 › pl:Brzoza brodawkowata
 Betula pubescens            › Q157624 › pl:Brzoza omszona
 Fagus sylvatica             › Q146149 › pl:Buk zwyczajny
+Tsuga canadensis            › Q1137143 › pl:Choina kanadyjska
 Taxus baccata               › Q179729 › pl:Cis pospolity
 Taxus × media               › Q6292155 › pl:Cis pośredni
+Cupressus × leylandii       › Q1290970 › pl:Cyprysowiec Leylanda
+Taxodium distichum          › Q148950 › pl:Cypryśnik błotny
+Chamaecyparis lawsoniana    › Q161360 › pl:Cyprysik Lawsona
+Chamaecyparis pisifera      › Q74068  › pl:Cyprysik groszkowy
+Cupressus nootkatensis      › Q17275264 › pl:Cyprysik nutkajski
 Quercus petraea             › Q158608 › pl:Dąb bezszypułkowy
 Quercus rubra               › Q147525 › pl:Dąb czerwony
+Quercus macranthera         › Q1105707 › pl:Dąb kaukaski
 Quercus robur               › Q165145 › pl:Dąb szypułkowy
 Pseudotsuga menziesii       › Q156687 › pl:Daglezja zielona
 Gleditsia triacanthos       › Q157650 › pl:Glediczja trójcierniowa
+Crataegus laevigata         › Q159553 › pl:Głóg dwuszyjkowy
+Crataegus monogyna          › Q161511 › pl:Głóg jednoszyjkowy
 Carpinus betulus            › Q158776 › pl:Grab pospolity
+Pyrus pyraster              › Q149332 › pl:Grusza polna
 Pyrus communis              › Q146281 › pl:Grusza pospolita
+Malus domestica             › Q18674606 › pl:Jabłoń domowa
+Malus sylvestris            › Q47161  › pl:Jabłoń dzika
+Juniperus chinensis         › Q157697 › pl:Jałowiec chiński
 Juniperus communis          › Q26325  › pl:Jałowiec pospolity
+Juniperus virginiana        › Q26325  › pl:Jałowiec wirginijski
 Sorbus torminalis           › Q147459 › pl:Jarząb brekinia
 Sorbus aucuparia            › Q146198 › pl:Jarząb pospolity
 Sorbus intermedia           › Q27980  › pl:Jarząb szwedzki
@@ -76,6 +110,7 @@ Fraxinus excelsior          › Q156907 › pl:Jesion wyniosły
 Abies concolor              › Q145939 › pl:Jodła kalifornijska
 Abies homolepis             › Q1166864 › pl:Jodła nikko
 Abies alba                  › Q146992 › pl:Jodła pospolita
+Castanea sativa             › Q22699  › pl:Kasztan jadalny
 Aesculus × carnea           › Q163779 › pl:Kasztanowiec czerwony
 Aesculus hippocastanum      › Q26899  › pl:Kasztanowiec zwyczajny
 Acer rubrum                 › Q161364 › pl:Klon czerwony
@@ -95,12 +130,16 @@ Magnolia × soulangeana      › Q731443 › pl:Magnolia pośrednia
 Ginkgo biloba               › Q43284  › pl:Miłorząb dwuklapowy
 Larix decidua               › Q146048 › pl:Modrzew europejski
 Alnus glutinosa             › Q156904 › pl:Olsza czarna
+Juglans nigra               › Q852572 › pl:Orzech czarny
 Platanus × hispanica        › Q161374 › pl:Platan klonolistny
 Robinia pseudoacacia        › Q157417 › pl:Robinia akacjowa
 Pinus nigra                 › Q145954 › pl:Sosna czarna
+Pinus mugo                  › Q147475 › pl:Kosodrzewina
 Pinus rigida                › Q837410 › pl:Sosna smołowa
 Pinus strobus               › Q157230 › pl:Sosna wejmutka
 Pinus sylvestris            › Q133128 › pl:Sosna zwyczajna
+Catalpa bignonioides        › Q163831 › pl:Surmia bignoniowa
+Catalpa ovata               › Q1144805 › pl:Surmia żółtokwiatowa
 Picea abies                 › Q145992 › pl:Świerk pospolity
 Picea omorika               › Q147824 › pl:Świerk serbski
 Populus balsamifera         › Q149471 › pl:Topola balsamiczna
@@ -122,17 +161,22 @@ Thuja occidentalis          › Q147468 › pl:Żywotnik zachodni
 ```
 Najczęściej spotykane gatunki bez określonej odmiany *(sp.)*
 ```
-Tilia        › Q127849 › pl:Lipa
-Fagus        › Q25403  › pl:Buk
-Quercus      › Q12004  › pl:Dąb
-Acer         › Q42292  › pl:Klon
-Populus      › Q25356  › pl:Topola
+Betula       › Q25243 › pl:Brzoza
+Fagus        › Q25403 › pl:Buk
+Quercus      › Q12004 › pl:Dąb
+Carpinus     › Q158513 › pl:Grab
+Sorbus       › Q157964 › pl:Jarząb
+Fraxinus     › Q128887 › pl:Jesion
 Aesculus     › Q158752 › pl:Kasztanowiec
-Salix        › Q36050  › pl:Wierzba
+Acer         › Q42292 › pl:Klon
+Tilia        › Q127849 › pl:Lipa
+Platanus     › Q163025 › pl:Platan
+Populus      › Q25356 › pl:Topola
 Ulmus        › Q131113 › pl:Wiąz
+Salix        › Q36050 › pl:Wierzba
 ```
 
-## Właściwości `obiekt=głaz narzutowy`
+## Właściwości [`obiekt=głaz narzutowy`](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dstone)
 ```
 natural=stone
 geological=glacial_erratic
@@ -140,19 +184,33 @@ denotation=natural_monument
 protected=yes
 ```
 
-## Właściwości `obiekt=źródło`
+## Właściwości [`obiekt=źródło`](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dspring)
 ```
 natural=spring
 denotation=natural_monument
 protected=yes
 ```
 
-## Właściwości `obiekt=jaskinia`
+## Właściwości [`obiekt=jaskinia`](https://wiki.openstreetmap.org/wiki/Tag:natural%3Dcave_entrance)
 ```
 natural=cave_entrance
 denotation=natural_monument
 protected=yes
 ```
+
+## Właściwości [`obiekt=skałka`](https://wiki.openstreetmap.org/wiki/Tag:natural%3Drock)
+```
+natural=rock
+denotation=natural_monument
+protected=yes
+```
+* sprawdz czy `natural=cliff` nie jest bardziej odpowiednie
+* `natural=bare_rock` gdy możesz mapowac jako obszar
+
+## Narzędzia dla [JOSM scripting plugin](https://wiki.openstreetmap.org/wiki/JOSM/Plugins/Scripting)
+* [JOSMscripting merge_node_gid_pairs.py](<utils/JOSMscripting merge_node_gid_pairs.py>) - szuka wezłów z tym samym `ref:gid` i łączy w jeden, a właściwości, których wartości się różnią, so łączone średnikiem
+* [JOSMscripting plugin merge_with_semicolon.py](<utils/JOSMscripting plugin merge_with_semicolon.py>) - Łączy wszystkie węzły blisko siebie, a ich różniące się własności średnikiem
+  * w 18 wierszu zmień tolerancję w tym kodzie: `key = "{:.7f},{:.7f}"`
 
 ## Minifikacja pliku .geojson z JOSM poleceniem Pythona:
 ```python

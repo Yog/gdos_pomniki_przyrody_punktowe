@@ -2,6 +2,16 @@
 1. load `gdos_pomniki_przyrody_punktowe-minified.geojson` into JOSM
 2. select natural monuments on an area you're interested with, invert selection and remove everything else
 3. confirm that your natural monument is not mapped already and if it is, update its properties
+    * use Overpass API
+    ```overpassql
+    [out:json][timeout:250];
+    (
+      node
+        ["denotation"="natural_monument"]
+        ({{bbox}});
+    );
+    out body;
+    ```
 4. confirm the location is good enough as CRFOP accuracy of geolocalized features may vary
    * ~88 of features have got 2 or more species because their location was the same but in reality it is different and might be fixed with good fotomap or survey
 5. the `name` value should be consistent with the [OSM guidelines](https://wiki.openstreetmap.org/wiki/Names#Proper_name_spelling), meaning it should be capitalized but not be all caps
@@ -53,16 +63,30 @@ Ailanthus altissima         › Q159570 › pl:Bożodrzew gruczołkowaty
 Betula pendula              › Q156895 › pl:Brzoza brodawkowata
 Betula pubescens            › Q157624 › pl:Brzoza omszona
 Fagus sylvatica             › Q146149 › pl:Buk zwyczajny
+Tsuga canadensis            › Q1137143 › pl:Choina kanadyjska
 Taxus baccata               › Q179729 › pl:Cis pospolity
 Taxus × media               › Q6292155 › pl:Cis pośredni
+Cupressus × leylandii       › Q1290970 › pl:Cyprysowiec Leylanda
+Taxodium distichum          › Q148950 › pl:Cypryśnik błotny
+Chamaecyparis lawsoniana    › Q161360 › pl:Cyprysik Lawsona
+Chamaecyparis pisifera      › Q74068  › pl:Cyprysik groszkowy
+Cupressus nootkatensis      › Q17275264 › pl:Cyprysik nutkajski
 Quercus petraea             › Q158608 › pl:Dąb bezszypułkowy
 Quercus rubra               › Q147525 › pl:Dąb czerwony
+Quercus macranthera         › Q1105707 › pl:Dąb kaukaski
 Quercus robur               › Q165145 › pl:Dąb szypułkowy
 Pseudotsuga menziesii       › Q156687 › pl:Daglezja zielona
 Gleditsia triacanthos       › Q157650 › pl:Glediczja trójcierniowa
+Crataegus laevigata         › Q159553 › pl:Głóg dwuszyjkowy
+Crataegus monogyna          › Q161511 › pl:Głóg jednoszyjkowy
 Carpinus betulus            › Q158776 › pl:Grab pospolity
+Pyrus pyraster              › Q149332 › pl:Grusza polna
 Pyrus communis              › Q146281 › pl:Grusza pospolita
+Malus domestica             › Q18674606 › pl:Jabłoń domowa
+Malus sylvestris            › Q47161  › pl:Jabłoń dzika
+Juniperus chinensis         › Q157697 › pl:Jałowiec chiński
 Juniperus communis          › Q26325  › pl:Jałowiec pospolity
+Juniperus virginiana        › Q26325  › pl:Jałowiec wirginijski
 Sorbus torminalis           › Q147459 › pl:Jarząb brekinia
 Sorbus aucuparia            › Q146198 › pl:Jarząb pospolity
 Sorbus intermedia           › Q27980  › pl:Jarząb szwedzki
@@ -72,6 +96,7 @@ Fraxinus excelsior          › Q156907 › pl:Jesion wyniosły
 Abies concolor              › Q145939 › pl:Jodła kalifornijska
 Abies homolepis             › Q1166864 › pl:Jodła nikko
 Abies alba                  › Q146992 › pl:Jodła pospolita
+Castanea sativa             › Q22699  › pl:Kasztan jadalny
 Aesculus × carnea           › Q163779 › pl:Kasztanowiec czerwony
 Aesculus hippocastanum      › Q26899  › pl:Kasztanowiec zwyczajny
 Acer rubrum                 › Q161364 › pl:Klon czerwony
@@ -91,12 +116,16 @@ Magnolia × soulangeana      › Q731443 › pl:Magnolia pośrednia
 Ginkgo biloba               › Q43284  › pl:Miłorząb dwuklapowy
 Larix decidua               › Q146048 › pl:Modrzew europejski
 Alnus glutinosa             › Q156904 › pl:Olsza czarna
+Juglans nigra               › Q852572 › pl:Orzech czarny
 Platanus × hispanica        › Q161374 › pl:Platan klonolistny
 Robinia pseudoacacia        › Q157417 › pl:Robinia akacjowa
 Pinus nigra                 › Q145954 › pl:Sosna czarna
+Pinus mugo                  › Q147475 › pl:Kosodrzewina
 Pinus rigida                › Q837410 › pl:Sosna smołowa
 Pinus strobus               › Q157230 › pl:Sosna wejmutka
 Pinus sylvestris            › Q133128 › pl:Sosna zwyczajna
+Catalpa bignonioides        › Q163831 › pl:Surmia bignoniowa
+Catalpa ovata               › Q1144805 › pl:Surmia żółtokwiatowa
 Picea abies                 › Q145992 › pl:Świerk pospolity
 Picea omorika               › Q147824 › pl:Świerk serbski
 Populus balsamifera         › Q149471 › pl:Topola balsamiczna
@@ -118,14 +147,19 @@ Thuja occidentalis          › Q147468 › pl:Żywotnik zachodni
 ```
 Most common *sp.* species
 ```
-Tilia        › Q127849 › pl:Lipa
-Fagus        › Q25403  › pl:Buk
-Quercus      › Q12004  › pl:Dąb
-Acer         › Q42292  › pl:Klon
-Populus      › Q25356  › pl:Topola
+Betula       › Q25243 › pl:Brzoza
+Fagus        › Q25403 › pl:Buk
+Quercus      › Q12004 › pl:Dąb
+Carpinus     › Q158513 › pl:Grab
+Sorbus       › Q157964 › pl:Jarząb
+Fraxinus     › Q128887 › pl:Jesion
 Aesculus     › Q158752 › pl:Kasztanowiec
-Salix        › Q36050  › pl:Wierzba
+Acer         › Q42292 › pl:Klon
+Tilia        › Q127849 › pl:Lipa
+Platanus     › Q163025 › pl:Platan
+Populus      › Q25356 › pl:Topola
 Ulmus        › Q131113 › pl:Wiąz
+Salix        › Q36050 › pl:Wierzba
 ```
 
 ## properties of `obiekt=głaz narzutowy`
