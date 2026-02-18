@@ -14,8 +14,8 @@ if layer and layer.data:
 
     groups = {}
     for node in selected_nodes:
-        # Group by coordinates (8 decimal places matches GeoJSON precision)
-        key = "{:.4f},{:.4f}".format(node.getCoor().lat(), node.getCoor().lon())
+        # Group by coordinates (7 decimal places matches GeoJSON precision)
+        key = "{:.7f},{:.7f}".format(node.getCoor().lat(), node.getCoor().lon())
         if key not in groups:
             groups[key] = []
         groups[key].append(node)
