@@ -6,11 +6,10 @@
 3. sprawdź, czy dany pomnik przyrody nie jest już zmapowany, a jeśli jest — zaktualizuj jego właściwości
     * zastosuj kwerendę Overpass API
     ```overpassql
-    [out:json][timeout:250];
+    [out:json][timeout:250][bbox:{{bbox}}];
     (
-      node
-        ["denotation"="natural_monument"]
-        ({{bbox}});
+      node["denotation"="natural_monument"];
+      node["protected"="yes"];
     );
     out body;
     ```
@@ -205,7 +204,7 @@ denotation=natural_monument
 protected=yes
 ```
 * sprawdz czy `natural=cliff` nie jest bardziej odpowiednie
-* `natural=bare_rock` gdy możesz mapowac jako obszar
+* `natural=bare_rock` gdy możesz mapować jako obszar
 
 ## Narzędzia dla [JOSM scripting plugin](https://wiki.openstreetmap.org/wiki/JOSM/Plugins/Scripting)
 * [JOSMscripting merge_node_gid_pairs.py](<utils/JOSMscripting merge_node_gid_pairs.py>) - szuka wezłów z tym samym `ref:gid` i łączy w jeden, a właściwości, których wartości się różnią, so łączone średnikiem
