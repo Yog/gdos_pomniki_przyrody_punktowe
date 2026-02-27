@@ -13,35 +13,57 @@ if layer and layer.data:
         print("No nodes selected. Please select nodes first.")
     else:
 
-        # Group nodes by ref:gid
-        groups = {}
+        # Build groups based on overlapping ref:gid values
+        groups = []
+
         for node in selected_nodes:
-            gid = node.get("ref:gid")
-            if gid:
-                groups.setdefault(gid, []).append(node)
+            gid_value = node.get("ref:gid")
+            if not gid_value:
+                continue
+
+            gid_set = set(gid_value.split(";"))
+
+            merged_into_existing = False
+
+            for group in groups:
+                if gid_set & group["gid_values"]:
+                    group["nodes"].append(node)
+                    group["gid_values"].update(gid_set)
+                    merged_into_existing = True
+                    break
+
+            if not merged_into_existing:
+                groups.append({
+                    "nodes": [node],
+                    "gid_values": set(gid_set)
+                })
 
         commands = []
         merged_count = 0
 
-        for gid, nodes in groups.items():
+        for group in groups:
+            nodes = group["nodes"]
+
             if len(nodes) > 1:
 
-                # Separate server and new nodes
+                # Prefer server node with lowest positive ID
                 server_nodes = [n for n in nodes if not n.isNew()]
 
                 if server_nodes:
-                    # Keep server node with lowest positive ID
                     target_node = min(server_nodes, key=lambda n: n.getId())
                 else:
-                    # All nodes are new > keep lowest ID (closest to zero)
                     target_node = min(nodes, key=lambda n: n.getId())
 
-                # Merge tags
+                # Merge all tags (still using interesting tags as in your version)
                 tags_to_merge = {}
+
                 for node in nodes:
                     tags = node.getInterestingTags()
                     for k, v in tags.items():
                         tags_to_merge.setdefault(k, set()).add(unicode(v))
+
+                # Properly merge ref:gid values
+                tags_to_merge["ref:gid"] = group["gid_values"]
 
                 new_tags = TagMap()
                 for k, values in tags_to_merge.items():
@@ -52,7 +74,6 @@ if layer and layer.data:
 
                 commands.append(ChangeCommand(target_node, updated_node))
 
-                # Delete all others
                 for node in nodes:
                     if node != target_node:
                         commands.append(DeleteCommand(node))
@@ -63,13 +84,13 @@ if layer and layer.data:
             undo_handler = UndoRedoHandler.getInstance()
             undo_handler.add(
                 SequenceCommand(
-                    u"Merge Nodes by ref:gid (Prefer OSM, Lowest ID)",
+                    u"Merge Nodes by ref:gid (Smart Multi-Value)",
                     commands
                 )
             )
             print(u"Success: Merged {} ref:gid groups.".format(merged_count))
         else:
-            print("No duplicate ref:gid values found among selected nodes.")
+            print("No overlapping ref:gid values found among selected nodes.")
 
 else:
     print("Error: No active data layer found.")
