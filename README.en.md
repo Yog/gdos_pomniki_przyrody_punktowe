@@ -145,7 +145,7 @@ Thuja plicata               › Q147417 › pl:Żywotnik olbrzymi
 Thuja occidentalis          › Q147468 › pl:Żywotnik zachodni
 ```
 
-##`Genus only species `genus:wikidata` and `genus:wikipedia` list:
+## Genus only species `genus:wikidata` and `genus:wikipedia` list:
 ```
 Betula       › Q25243 › pl:Brzoza
 Fagus        › Q25403 › pl:Buk
