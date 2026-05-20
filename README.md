@@ -69,7 +69,7 @@ start_date=1888           / date when the tree was planted, usually approximate
 
 Stosuj pliki w [/archive/](/archive) `gdos_pomniki_przyrody_punktowe-init-ref.geojson` **wyłącznie** do kontroli ewentualnych uszkodzeń danych — zawiera on wiele obiektów w oryginalnym (niezminifikowanym) formacie.
 
-## Q-kody `species:wikidata` i lista `species:wikipedia`:
+## Q-kody `species:wikidata` i lista `species:wikipedia` :
 
 ```
 Ailanthus altissima         › Q159570 › pl:Bożodrzew gruczołkowaty
@@ -158,7 +158,8 @@ Prunus avium                › Q165137 › pl:Wiśnia ptasia
 Thuja plicata               › Q147417 › pl:Żywotnik olbrzymi
 Thuja occidentalis          › Q147468 › pl:Żywotnik zachodni
 ```
-Najczęściej spotykane gatunki bez określonej odmiany *(sp.)*
+
+## Gatunki bez określonej odmiany z `genus:wikidata` i `genus:wikipedia` :
 ```
 Betula       › Q25243 › pl:Brzoza
 Fagus        › Q25403 › pl:Buk
@@ -216,5 +217,5 @@ protected=yes
 python -c "import sys
 w=sys.stdout.buffer.write
 for line in sys.stdin.buffer:
-    w(line.lstrip().rstrip(b'\r\n'))" < gdos_pomniki_przyrody_punktowe-JOSMgenerated.geojson > gdos_pomniki_przyrody_punktowe-minified.geojson
+    w(line.lstrip().rstrip(b'\r\n'))" < gdos_pomniki_przyrody_punktowe.geojson > gdos_pomniki_przyrody_punktowe-minified.geojson
 ```

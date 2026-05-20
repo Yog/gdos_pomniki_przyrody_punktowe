@@ -4,11 +4,10 @@
 3. confirm that your natural monument is not mapped already and if it is, update its properties
     * use Overpass API
     ```overpassql
-    [out:json][timeout:250];
+    [out:json][timeout:250][bbox:{{bbox}}];
     (
-      node
-        ["denotation"="natural_monument"]
-        ({{bbox}});
+      node"denotation"="natural_monument"]
+      node["protected"="yes"];
     );
     out body;
     ```
@@ -145,7 +144,8 @@ Prunus avium                › Q165137 › pl:Wiśnia ptasia
 Thuja plicata               › Q147417 › pl:Żywotnik olbrzymi
 Thuja occidentalis          › Q147468 › pl:Żywotnik zachodni
 ```
-Most common *sp.* species
+
+##`Genus only species `genus:wikidata` and `genus:wikipedia` list:
 ```
 Betula       › Q25243 › pl:Brzoza
 Fagus        › Q25403 › pl:Buk
@@ -189,5 +189,5 @@ protected=yes
 python -c "import sys
 w=sys.stdout.buffer.write
 for line in sys.stdin.buffer:
-    w(line.lstrip().rstrip(b'\r\n'))" < gdos_pomniki_przyrody_punktowe-JOSMgenerated.geojson > gdos_pomniki_przyrody_punktowe-minified.geojson
+    w(line.lstrip().rstrip(b'\r\n'))" < gdos_pomniki_przyrody_punktowe.geojson > gdos_pomniki_przyrody_punktowe-minified.geojson
 ```
