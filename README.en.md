@@ -97,7 +97,7 @@ Abies homolepis             › Q1166864 › pl:Jodła nikko
 Abies alba                  › Q146992 › pl:Jodła pospolita
 Castanea sativa             › Q22699  › pl:Kasztan jadalny
 Aesculus × carnea           › Q163779 › pl:Kasztanowiec czerwony
-Aesculus hippocastanum      › Q26899  › pl:Kasztanowiec zwyczajny
+Aesculus hippocastanum      › Q26899  › pl:Kasztanowiec pospolity
 Acer rubrum                 › Q161364 › pl:Klon czerwony
 Acer pseudoplatanus         › Q156944 › pl:Klon jawor
 Acer negundo                › Q161166 › pl:Klon jesionolistny

@@ -19,7 +19,7 @@
    * obiekty w jednym zbiorze mają często wszystkie nazwy tych obiektów połączone w jeden ciąg. W takim przypadku nazwy spodziewać się można w tej samej kolejności co identyfikatory `ref:gid=` i w tym porządku `name` można prawidłowo indywidualnie przypisać. 
 6. usuń właściwość `podtyp=*`, `powierzch=*` oraz `obiekt=*` lub zastąp właściwym tagiem
 7. `powierzch=*` określa powierzchnię jaką zajmuje chroniony obiekt, wtedy warto mapować jako obszar o podanej wielkości
-8. występują również inne obiekty chronione z właściwością `obiekt=*`, które nie koniecznie są drzewami. Można je mapować, ale **przed wysłaniem dokładnie sprawdź wszystkie tagi**:
+8. występują również inne obiekty chronione z właściwością `obiekt=*`, które niekoniecznie są drzewami. Można je mapować, ale **przed wysłaniem dokładnie sprawdź wszystkie tagi**:
    * `głaz narzutowy` — głaz narzutowy
    * `jaskinia` — wejście do jaskini
    * `skałka` — formacja skalna / skałka
@@ -51,21 +51,21 @@ species:wikipedia=pl:Lipa szerokolistna
 ```
 height=23.6               / w metrach, zwykle prezentowane w CRFOP
 circumference=2.92        / w metrach, też zwykle prezentowane w CRFOP
-diameter=920              / średnica w milimeterach !!
+diameter=920              / średnica w milimetrach !!
 diameter_crown=16.2       / w metrach
-description=              / description can be sometimes found on CRFOP
-start_date=1888           / date when the tree was planted, usually approximate
+description=              / opis może być odnaleziony w CRFOP
+start_date=1888           / data posadzenia drzewa, zwykle przybliżona
 ```
 
 ## Rozwiązywanie problemów
-* Baza jest aktualna z CRFOP do stycznia 2026r i w związku z tym powstał szereg `note`
-  1. `note:fopid` ostrzega, że cała grupa obiektów może nie być już pomnikami przyrody gdyż pierwotne *fopid* nie jest w zbioże nowych pomników, ale mogło być nadane nowe
-  2. `note:gid` ma podobną logikę, jednak zawsze dotyczy tylko unikalnego obiektu. Ten równiez mógł mieć nadany nowy identyfikator i w takim wypadku twór zachowuje swój status pomnikowy
+* Baza jest aktualna z CRFOP do stycznia 2026 r. i w związku z tym powstał szereg `note`
+  1. `note:fopid` ostrzega, że cała grupa obiektów może nie być już pomnikami przyrody gdyż pierwotne *fopid* nie jest w zbiorze nowych pomników, ale mogło być nadane nowe
+  2. `note:gid` ma podobną logikę, jednak zawsze dotyczy tylko unikalnego obiektu. Ten również mógł mieć nadany nowy identyfikator i w takim wypadku twór zachowuje swój status pomnikowy
      * jeśli drzewo nie jest *pomnikiem przyrody* to pomimo tego może dalej rosnąć, a jego pierwotny wpis pozostaje w CRFOP. 
      * `protected=yes` pozostaje gdyż takie drzewo dalej może pozostawać pod względną ochroną ze względu na wystarczającą średnicę pnia
-  3. `note:location` wskazówka iż lokalizacja może być rozbieżna z CRFOP, jednakże najwazniejsza jest rzeczywista lokalizacja, którą szczególnie warto zweryfikować
+  3. `note:location` wskazówka iż lokalizacja może być rozbieżna z CRFOP, jednakże najważniejsza jest rzeczywista lokalizacja, którą szczególnie warto zweryfikować
   4. `note:update` informacja o aktualizacji
-* wszystkie `note` warto skasować przed zapisem na OSM lub zmienić opis by ułatwić przyszła weryfikację. 
+* wszystkie `note` warto skasować przed zapisem na OSM lub zmienić opis by ułatwić przyszłą weryfikację. 
 
 Stosuj pliki w [/archive/](/archive) `gdos_pomniki_przyrody_punktowe-init-ref.geojson` **wyłącznie** do kontroli ewentualnych uszkodzeń danych — zawiera on wiele obiektów w oryginalnym (niezminifikowanym) formacie.
 
@@ -111,7 +111,7 @@ Abies homolepis             › Q1166864 › pl:Jodła nikko
 Abies alba                  › Q146992 › pl:Jodła pospolita
 Castanea sativa             › Q22699  › pl:Kasztan jadalny
 Aesculus × carnea           › Q163779 › pl:Kasztanowiec czerwony
-Aesculus hippocastanum      › Q26899  › pl:Kasztanowiec zwyczajny
+Aesculus hippocastanum      › Q26899  › pl:Kasztanowiec pospolity
 Acer rubrum                 › Q161364 › pl:Klon czerwony
 Acer pseudoplatanus         › Q156944 › pl:Klon jawor
 Acer negundo                › Q161166 › pl:Klon jesionolistny
@@ -208,7 +208,7 @@ protected=yes
 * `natural=bare_rock` gdy możesz mapować jako obszar
 
 ## Narzędzia dla [JOSM scripting plugin](https://wiki.openstreetmap.org/wiki/JOSM/Plugins/Scripting)
-* [JOSMscripting merge_node_gid_pairs.py](<utils/JOSMscripting merge_node_gid_pairs.py>) - szuka wezłów z tym samym `ref:gid` i łączy w jeden, a właściwości, których wartości się różnią, so łączone średnikiem
+* [JOSMscripting merge_node_gid_pairs.py](<utils/JOSMscripting merge_node_gid_pairs.py>) - szuka węzłów z tym samym `ref:gid` i łączy w jeden, a właściwości, których wartości się różnią, są łączone średnikiem
 * [JOSMscripting plugin merge_with_semicolon.py](<utils/JOSMscripting plugin merge_with_semicolon.py>) - Łączy wszystkie węzły blisko siebie, a ich różniące się własności średnikiem
   * w 18 wierszu zmień tolerancję w tym kodzie: `key = "{:.7f},{:.7f}"`
 
