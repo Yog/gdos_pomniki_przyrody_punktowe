@@ -85,7 +85,7 @@ Malus domestica             › Q18674606 › pl:Jabłoń domowa
 Malus sylvestris            › Q47161  › pl:Jabłoń dzika
 Juniperus chinensis         › Q157697 › pl:Jałowiec chiński
 Juniperus communis          › Q26325  › pl:Jałowiec pospolity
-Juniperus virginiana        › Q26325  › pl:Jałowiec wirginijski
+Juniperus virginiana        › Q157522 › pl:Jałowiec wirginijski
 Sorbus torminalis           › Q147459 › pl:Jarząb brekinia
 Sorbus aucuparia            › Q146198 › pl:Jarząb pospolity
 Sorbus intermedia           › Q27980  › pl:Jarząb szwedzki

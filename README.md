@@ -14,14 +14,15 @@
     out body;
     ```
 4. upewnij się, że lokalizacja jest wystarczająco dobra, ponieważ dokładność geolokalizacji obiektów w CRFOP może być wątpliwa  
-   * ~88 obiektów ma przypisane 2 lub więcej gatunków, ponieważ ich lokalizacja była taka sama, choć w rzeczywistości jest różna — może to zostać poprawione przy użyciu dobrej fotomapy lub w terenie
-5. wartość `name` powinna być spójna z [wytycznymi OSM](https://wiki.openstreetmap.org/wiki/Names#Proper_name_spelling) czyli pisana tylko z wielkiej litery
-   * obiekty w jednym zbiorze mają często wszystkie nazwy tych obiektów połączone w jeden ciąg. W takim przypadku nazwy spodziewać się można w tej samej kolejności co identyfikatory `ref:gid=` i w tym porządku `name` można prawidłowo indywidualnie przypisać. 
-6. usuń właściwość `podtyp=*`, `powierzch=*` oraz `obiekt=*` lub zastąp właściwym tagiem
-7. `powierzch=*` określa powierzchnię jaką zajmuje chroniony obiekt, wtedy warto mapować jako obszar o podanej wielkości
-8. występują również inne obiekty chronione z właściwością `obiekt=*`, które niekoniecznie są drzewami. Można je mapować, ale **przed wysłaniem dokładnie sprawdź wszystkie tagi**:
+   * ~88 obiektów ma przypisane 2 lub więcej gatunków, ponieważ ich lokalizacja była taka sama, choć w rzeczywistości jest różna — może to zostać poprawione przez analizę dobrej fotomapy lub w terenie
+5. wartość `name` powinna być spójna z [wytycznymi OSM](https://wiki.openstreetmap.org/wiki/Names#Proper_name_spelling), czyli zapisana zawsze z wielkiej litery
+   * obiekty w jednym zbiorze mają często wszystkie nazwy tych obiektów połączone w jeden ciąg. W takim przypadku nazwy można spodziewać się w tej samej kolejności co identyfikatory `ref:gid=` i w tym porządku `name` można prawidłowo indywidualnie przypisać. 
+6. usuń właściwość `podtyp=*`, `powierzch=*` oraz `obiekt=*` i zastąp właściwym tagiem jeśli to możliwe
+7. `powierzch=*` określa powierzchnię, jaką zajmuje chroniony obiekt, wtedy warto mapować jako obszar o podanej wielkości
+8. występują również inne obiekty chronione, które nie są drzewami. Wcześniej miały właściwość `obiekt=*`. Można je mapować, ale **przed wysłaniem dokładnie sprawdź wszystkie tagi**:
    * `głaz narzutowy` — głaz narzutowy
    * `jaskinia` — wejście do jaskini
+   * `krzew` — krzew lub inna roślinność powierzchniowa
    * `skałka` — formacja skalna / skałka
    * `wodospad` — wodospad
    * `źródło` — źródło
@@ -58,14 +59,15 @@ start_date=1888           / data posadzenia drzewa, zwykle przybliżona
 ```
 
 ## Rozwiązywanie problemów
-* Baza jest aktualna z CRFOP do stycznia 2026 r. i w związku z tym powstał szereg `note`
-  1. `note:fopid` ostrzega, że cała grupa obiektów może nie być już pomnikami przyrody gdyż pierwotne *fopid* nie jest w zbiorze nowych pomników, ale mogło być nadane nowe
-  2. `note:gid` ma podobną logikę, jednak zawsze dotyczy tylko unikalnego obiektu. Ten również mógł mieć nadany nowy identyfikator i w takim wypadku twór zachowuje swój status pomnikowy
-     * jeśli drzewo nie jest *pomnikiem przyrody* to pomimo tego może dalej rosnąć, a jego pierwotny wpis pozostaje w CRFOP. 
+* Baza zawiera dane z CRFOP aktualne do stycznia 2026 r. i w związku z tym powstał szereg `note`
+  1. `note:fopid` ostrzega, że cała grupa obiektów może nie być już pomnikami przyrody gdyż pierwotne *fopid* nie występuje w zbiorze nowych pomników, ale grupie mogło zostać nadane nowe *fopid*
+  2. `note:gid` ma podobną logikę, jednak zawsze dotyczy tylko unikalnego obiektu. Obiekt ten również mógł otrzymać nowy identyfikator i w takim wypadku twór zachowuje swój status pomnikowy
+     * jeśli drzewo nie jest *pomnikiem przyrody* to mimo to może dalej rosnąć, a jego pierwotny wpis pozostaje w CRFOP. 
      * `protected=yes` pozostaje gdyż takie drzewo dalej może pozostawać pod względną ochroną ze względu na wystarczającą średnicę pnia
   3. `note:location` wskazówka iż lokalizacja może być rozbieżna z CRFOP, jednakże najważniejsza jest rzeczywista lokalizacja, którą szczególnie warto zweryfikować
   4. `note:update` informacja o aktualizacji
-* wszystkie `note` warto skasować przed zapisem na OSM lub zmienić opis by ułatwić przyszłą weryfikację. 
+* wszystkie `note` warto skasować przed wysłaniem zmian do OSM lub zmienić opis by ułatwić przyszłą weryfikację. 
+* drzewa bywają ścięte i wtedy można zastosować `natural=tree_stump`
 
 Stosuj pliki w [/archive/](/archive) `gdos_pomniki_przyrody_punktowe-init-ref.geojson` **wyłącznie** do kontroli ewentualnych uszkodzeń danych — zawiera on wiele obiektów w oryginalnym (niezminifikowanym) formacie.
 
@@ -99,7 +101,7 @@ Malus domestica             › Q18674606 › pl:Jabłoń domowa
 Malus sylvestris            › Q47161  › pl:Jabłoń dzika
 Juniperus chinensis         › Q157697 › pl:Jałowiec chiński
 Juniperus communis          › Q26325  › pl:Jałowiec pospolity
-Juniperus virginiana        › Q26325  › pl:Jałowiec wirginijski
+Juniperus virginiana        › Q157522 › pl:Jałowiec wirginijski
 Sorbus torminalis           › Q147459 › pl:Jarząb brekinia
 Sorbus aucuparia            › Q146198 › pl:Jarząb pospolity
 Sorbus intermedia           › Q27980  › pl:Jarząb szwedzki
@@ -159,7 +161,7 @@ Thuja plicata               › Q147417 › pl:Żywotnik olbrzymi
 Thuja occidentalis          › Q147468 › pl:Żywotnik zachodni
 ```
 
-## Gatunki bez określonej odmiany z `genus:wikidata` i `genus:wikipedia` :
+## "Gatunki" bez określonej odmiany z `genus:wikidata` i `genus:wikipedia` :
 ```
 Betula       › Q25243 › pl:Brzoza
 Fagus        › Q25403 › pl:Buk
@@ -204,13 +206,20 @@ natural=rock
 denotation=natural_monument
 protected=yes
 ```
-* sprawdz czy `natural=cliff` nie jest bardziej odpowiednie
+* sprawdz, czy `natural=cliff` nie jest bardziej odpowiednie
 * `natural=bare_rock` gdy możesz mapować jako obszar
+
+## Właściwości [`obiekt=wodospad`](https://wiki.openstreetmap.org/wiki/Pl:Tag:waterway%3Dwaterfall)
+```
+waterway=waterfall
+denotation=natural_monument
+protected=yes
+```
 
 ## Narzędzia dla [JOSM scripting plugin](https://wiki.openstreetmap.org/wiki/JOSM/Plugins/Scripting)
 * [JOSMscripting merge_node_gid_pairs.py](<utils/JOSMscripting merge_node_gid_pairs.py>) - szuka węzłów z tym samym `ref:gid` i łączy w jeden, a właściwości, których wartości się różnią, są łączone średnikiem
-* [JOSMscripting plugin merge_with_semicolon.py](<utils/JOSMscripting plugin merge_with_semicolon.py>) - Łączy wszystkie węzły blisko siebie, a ich różniące się własności średnikiem
-  * w 18 wierszu zmień tolerancję w tym kodzie: `key = "{:.7f},{:.7f}"`
+* [JOSMscripting plugin merge_with_semicolon.py](<utils/JOSMscripting plugin merge_with_semicolon.py>) - Łączy wszystkie węzły blisko siebie, a ich różniące się własności łączy średnikiem
+  * w 18 wierszu zmień dokładność zaokrąglania współrzędnych w tym kodzie: `key = "{:.7f},{:.7f}"`
 
 ## Minifikacja pliku .geojson z JOSM poleceniem Pythona:
 ```python
