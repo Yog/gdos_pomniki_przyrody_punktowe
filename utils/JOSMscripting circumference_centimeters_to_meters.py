@@ -1,16 +1,18 @@
 from org.openstreetmap.josm.gui import MainApplication
+from org.openstreetmap.josm.command import ChangePropertyCommand
 from javax.swing import JOptionPane
+
+layer = MainApplication.getLayerManager().getEditLayer()
 
 converted = 0
 skipped = 0
+commands = []
 
-layer_manager = MainApplication.getLayerManager()
+if layer is None:
+    JOptionPane.showMessageDialog(None, "No active OSM data layer.")
+else:
 
-for layer in layer_manager.getLayers():
-    if not hasattr(layer, "data"):
-        continue
-
-    for primitive in layer.data.allPrimitives():
+    for primitive in layer.data.getSelected():
         value = primitive.get("circumference")
 
         if value is None:
@@ -19,29 +21,49 @@ for layer in layer_manager.getLayers():
         try:
             num = float(value)
 
-            # 10 or more = centimetres
-            # Below 10 = already metres
+            # Values >= 10 are centimetres
             if num >= 10:
                 metres = num / 100.0
 
-                # Remove unnecessary trailing zeros
+                # Keep sensible formatting
                 new_value = ("%.2f" % metres).rstrip("0").rstrip(".")
 
-                primitive.put("circumference", new_value)
+                # Create a proper JOSM edit command
+                commands.append(
+                    ChangePropertyCommand(
+                        primitive,
+                        "circumference",
+                        new_value
+                    )
+                )
+
                 converted += 1
+
             else:
                 skipped += 1
 
         except:
             print("Could not convert circumference: " + str(value))
 
-print("Converted: " + str(converted))
-print("Already in metres / skipped: " + str(skipped))
+    # Execute through JOSM's command system
+    if commands:
+        from org.openstreetmap.josm.command import SequenceCommand
 
-JOptionPane.showMessageDialog(
-    None,
-    "Converted " + str(converted) +
-    " circumference values from cm to m.\n" +
-    str(skipped) +
-    " values left unchanged."
-)
+        sequence = SequenceCommand(
+            "Convert circumference from cm to m",
+            commands
+        )
+
+        MainApplication.undoRedo.add(sequence)
+
+    print("Converted: " + str(converted))
+    print("Already in metres / skipped: " + str(skipped))
+
+    JOptionPane.showMessageDialog(
+        None,
+        "Converted " + str(converted) +
+        " circumference values from cm to m.\n" +
+        str(skipped) +
+        " values already in metres.\n\n" +
+        "JOSM should now show these objects as modified."
+    )
