@@ -64,6 +64,7 @@ start_date=1888           / data posadzenia drzewa, zwykle przybliżona
   2. `note:gid` ma podobną logikę, jednak zawsze dotyczy tylko unikalnego obiektu. Obiekt ten również mógł otrzymać nowy identyfikator i w takim wypadku twór zachowuje swój status pomnikowy
      * jeśli drzewo nie jest *pomnikiem przyrody* to mimo to może dalej rosnąć, a jego pierwotny wpis pozostaje w CRFOP. 
      * `protected=yes` pozostaje gdyż takie drzewo dalej może pozostawać pod względną ochroną ze względu na wystarczającą średnicę pnia
+     * Dodaj `crfop:inscription_end_date=####` z datą zniesienia pomnikowej formy ochrony by było wiadomo dlaczego obiekt nie jest pomnikiem przyrody w tym momencie, ale był nim w przeszłości
   3. `note:location` wskazówka iż lokalizacja może być rozbieżna z CRFOP, jednakże najważniejsza jest rzeczywista lokalizacja, którą szczególnie warto zweryfikować
   4. `note:update` informacja o aktualizacji
 * wszystkie `note` warto skasować przed wysłaniem zmian do OSM lub zmienić opis by ułatwić przyszłą weryfikację. 
